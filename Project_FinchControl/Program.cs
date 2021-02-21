@@ -631,6 +631,14 @@ namespace Project_FinchControl
             DisplayContinuePrompt();
              
 
+
+
+
+            ///
+            /// Saving this code for filling out the menu at a later date
+            ///
+
+
             //bool quitTalentShowMenu = false;
             //string menuChoice;
 
@@ -711,6 +719,9 @@ namespace Project_FinchControl
                 Console.WriteLine();
                 DisplayContinuePrompt();
 
+                ///
+                /// Saving this code for filling out the menu at a later date
+                ///
 
                 //bool quitTalentShowMenu = false;
                 //string menuChoice;
@@ -793,6 +804,11 @@ namespace Project_FinchControl
                 Console.WriteLine();
                 DisplayContinuePrompt();
 
+
+
+                ///
+                /// Saving this code for filling out the menu at a later date
+                ///
 
                 //bool quitTalentShowMenu = false;
                 //string menuChoice;
