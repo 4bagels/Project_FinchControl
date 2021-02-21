@@ -245,71 +245,7 @@ namespace Project_FinchControl
 
             }
 
-            ////lets go red wings
-            //finchRobot.setLED(255, 0, 0);
-            //finchRobot.wait(500);
-            //finchRobot.noteOn(784);
-            //finchRobot.wait(500);
-            //finchRobot.setLED(255, 255, 255);
-            //finchRobot.wait(500);
-            //finchRobot.noteOn(659);
-            //finchRobot.wait(500);
-            //finchRobot.setLED(255, 0, 0);
-            //finchRobot.wait(500);
-            //finchRobot.noteOn(784);
-            //finchRobot.wait(500);
-            //finchRobot.setLED(255, 255, 255);
-            //finchRobot.wait(500);
-            //finchRobot.noteOn(659);
-            //finchRobot.wait(500);
-            //finchRobot.noteOff();
-            //finchRobot.wait(200);
-
-            //// clap, clap
-            //finchRobot.setLED(255, 0, 0);
-            //finchRobot.wait(250);
-            //finchRobot.noteOn(523);
-            //finchRobot.wait(250);
-            //finchRobot.noteOff();
-            //finchRobot.setLED(255, 0, 0);
-            //finchRobot.wait(250);
-            //finchRobot.noteOn(523);
-            //finchRobot.wait(250);
-            //finchRobot.noteOff();
-            //finchRobot.wait(250);
-
-            ////clap, clap, clap
-            //finchRobot.noteOn(523);
-            //finchRobot.wait(150);
-            //finchRobot.noteOff();
-            //finchRobot.wait(50);
-            //finchRobot.noteOn(523);
-            //finchRobot.wait(150);
-            //finchRobot.noteOff();
-            //finchRobot.wait(50);
-            //finchRobot.noteOn(523);
-            //finchRobot.wait(150);
-            //finchRobot.noteOff();
-            //finchRobot.setLED(0, 0, 0);
-
-
-
-
-
-            //for (int lightSoundLevel = 0; lightSoundLevel < 255; lightSoundLevel++)
-            //{
-            //    finchRobot.setLED(lightSoundLevel, lightSoundLevel, lightSoundLevel);
-            //    finchRobot.noteOn(lightSoundLevel * 100);
-            //    finchRobot.wait(10);
-            //}
-
-            //for (int lightSoundLevel = 255; lightSoundLevel > 0; lightSoundLevel--)
-            //{
-            //    finchRobot.setLED(lightSoundLevel, lightSoundLevel, lightSoundLevel);
-            //    finchRobot.noteOn(lightSoundLevel * 100);
-            //    finchRobot.wait(10);
-            //}
-
+            
             DisplayMenuPrompt("Talent Show Menu");
         }
 
