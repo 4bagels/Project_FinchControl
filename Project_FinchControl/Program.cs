@@ -738,20 +738,26 @@ namespace Project_FinchControl
             //return the variable created by user
             return numberOfDataPoints;
         }
-
+        
         static double[] DataRecorderDisplayGetData(int numberOFDataPoints, double datapointFrequency, Finch finchRobot)
         {
             double[] temperatures = new double[numberOFDataPoints];
             
-            
-
             DisplayScreenHeader("\t\t\t\t\tGet Data:");
+
+            //
+            // Read back user's choices before running
+            //
 
             Console.WriteLine($"Number of data points requested: {numberOFDataPoints}");
             Console.WriteLine($"Frequency of data points: {datapointFrequency}");
             Console.WriteLine();
             Console.WriteLine("The Finch is ready to begin recording temperature data");
             DisplayContinuePrompt();
+
+            //
+            // Display the temperature readings from the Finch
+            //
 
             Console.WriteLine("Temperature readings in Celsius: ");
             Console.WriteLine();
@@ -762,6 +768,11 @@ namespace Project_FinchControl
                 int waitInSeconds = (int)(datapointFrequency * 1000);
                 finchRobot.wait(waitInSeconds);
             }
+
+            //
+            // Call method to convert the temperature readings to Fahrenheit
+            //
+
             ConvertCelsiusToFahrenheit(temperatures);
 
             Console.WriteLine();
@@ -775,22 +786,46 @@ namespace Project_FinchControl
 
             }
 
-
-
-
+            
             DisplayMenuPrompt("Data Recorder Menu");
             return temperatures;
         }
 
         static void DataRecorderDisplayData(double[] temperatures)
         {
-            double[] tempsInCelsius = new double[temperatures.Length];
+            
 
             DisplayScreenHeader("\t\t\t\t\tShow Data");
+
+
+            //
+            // conversion and display for Fahrenheit
+            //
 
             Console.WriteLine("Temperatures in Fahrenheit: ");
             DataRecorderDisplayTable(temperatures);
             Console.WriteLine();
+
+            //
+            // Formula to get Average Temp in Fahrenheit
+            //
+
+            double sumOfTemps = 0;
+            for (int i = 0; i < temperatures.Length; i++)
+            {
+                sumOfTemps += temperatures[i];
+            }
+            double averageTemp = (sumOfTemps / temperatures.Length);
+
+            Console.WriteLine();
+            Console.WriteLine("Average Temperature in Fahrenheit: ");
+            Console.WriteLine(averageTemp.ToString("n2"));
+
+            //
+            // Since we saved temps in fahrenheit, we need to convert it back to celsius to display both
+            //
+
+            double[] tempsInCelsius = new double[temperatures.Length];
 
             for (int i = 0; i < temperatures.Length; i++)
             {
@@ -801,6 +836,20 @@ namespace Project_FinchControl
             DataRecorderDisplayTable(tempsInCelsius);
             Console.WriteLine();
 
+            //
+            // Formula to get Average Temp in Celsius
+            //
+
+            double sumOfTempInCelsius = 0;
+            for (int i = 0; i < tempsInCelsius.Length; i++)
+            {
+                sumOfTempInCelsius += tempsInCelsius[i];
+            }
+
+            double averageTempInCelsius = (sumOfTempInCelsius / tempsInCelsius.Length);
+            Console.WriteLine();
+            Console.WriteLine("Average Temperature in Celsius: ");
+            Console.WriteLine(averageTempInCelsius.ToString("n2"));
 
             DisplayMenuPrompt("Data Recorder Menu");
         }
@@ -835,6 +884,9 @@ namespace Project_FinchControl
         }
 
         static double[] ConvertCelsiusToFahrenheit(double[] temperatures)
+            //
+            //method for converting temps to fahrenheit
+            //
         {
             for (int i = 0; i < temperatures.Length; i++)
             {
