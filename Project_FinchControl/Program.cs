@@ -884,10 +884,11 @@ namespace Project_FinchControl
         }
 
         static double[] ConvertCelsiusToFahrenheit(double[] temperatures)
+        {
             //
             //method for converting temps to fahrenheit
             //
-        {
+
             for (int i = 0; i < temperatures.Length; i++)
             {
                 temperatures[i] = ((temperatures[i] * 9) / 5 + 32);
