@@ -809,7 +809,6 @@ namespace Project_FinchControl
             //
             // Formula to get Average Temp in Fahrenheit
             //
-
             double sumOfTemps = 0;
             for (int i = 0; i < temperatures.Length; i++)
             {
