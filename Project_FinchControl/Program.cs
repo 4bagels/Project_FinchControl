@@ -53,6 +53,7 @@ namespace Project_FinchControl
         {
             Console.ForegroundColor = ConsoleColor.White;
             Console.BackgroundColor = ConsoleColor.DarkRed;
+            
         }
 
         /// <summary>
@@ -76,12 +77,13 @@ namespace Project_FinchControl
                 //
                 // get user menu choice
                 //
-                Console.WriteLine("\ta) Connect Finch Robot");
-                Console.WriteLine("\tb) Talent Show");
-                Console.WriteLine("\tc) Data Recorder");
-                Console.WriteLine("\td) Light Alarm System");
-                Console.WriteLine("\te) User Programming");
-                Console.WriteLine("\tf) Disconnect Finch Robot");
+                Console.WriteLine("\ta) Import/Change Application Theme");
+                Console.WriteLine("\tb) Connect Finch Robot");
+                Console.WriteLine("\tc) Talent Show");
+                Console.WriteLine("\td) Data Recorder");
+                Console.WriteLine("\te) Light Alarm System");
+                Console.WriteLine("\tf) User Programming");
+                Console.WriteLine("\tg) Disconnect Finch Robot");
                 Console.WriteLine("\tq) Quit");
                 Console.Write("\t\tEnter Choice:");
                 menuChoice = Console.ReadLine().ToLower();
@@ -91,27 +93,33 @@ namespace Project_FinchControl
                 //
                 switch (menuChoice)
                 {
+
+
                     case "a":
-                        DisplayConnectFinchRobot(finchRobot);
+                        DisplaySetTheme();
                         break;
 
                     case "b":
-                        TalentShowDisplayMenuScreen(finchRobot);
+                        DisplayConnectFinchRobot(finchRobot);
                         break;
 
                     case "c":
-                        DataRecorderDisplayMenuScreen(finchRobot);
+                        TalentShowDisplayMenuScreen(finchRobot);
                         break;
 
                     case "d":
-                        LightAlarmSystemDisplayMenuScreen(finchRobot);
+                        DataRecorderDisplayMenuScreen(finchRobot);
                         break;
 
                     case "e":
-                        UserProgrammingDisplayMenuScreen(finchRobot);
+                        LightAlarmSystemDisplayMenuScreen(finchRobot);
                         break;
 
                     case "f":
+                        UserProgrammingDisplayMenuScreen(finchRobot);
+                        break;
+
+                    case "g":
                         DisplayDisconnectFinchRobot(finchRobot);
                         break;
 
@@ -489,8 +497,9 @@ namespace Project_FinchControl
 
             finchRobot.disConnect();
 
-           
-            Console.WriteLine("\tThe Finch robot is now disconnect.");
+            Console.WriteLine();
+            Console.WriteLine("\t\t\t\t\t   The Finch robot is now disconnect.");
+            Console.WriteLine();
 
             DisplayMenuPrompt("Main Menu");
         }
@@ -558,7 +567,7 @@ namespace Project_FinchControl
             Console.WriteLine();
             Console.WriteLine();
 
-            Console.WriteLine("\t\t\t\tThis program is under construction! Please bare with us!");
+            
 
             DisplayContinuePrompt();
         }
@@ -574,7 +583,7 @@ namespace Project_FinchControl
 
             Console.Clear();
             Console.WriteLine();
-            Console.WriteLine("\t\t\tThank you for using Finch Control!");
+            Console.WriteLine("\t\t\t\t\t     Thank you for using Finch Control!");
             Console.WriteLine();
 
             DisplayContinuePrompt();
@@ -1660,5 +1669,223 @@ namespace Project_FinchControl
         }
         #endregion
 
+        #region Persistence
+
+
+        static void DisplaySetTheme()
+        {
+
+
+            DisplayReadAndSetTheme();
+
+            (ConsoleColor foregroundColor, ConsoleColor backgroundColor) themeColors;
+            bool themeChosen = false;
+            string exceptionMessage;
+
+           
+            DisplayScreenHeader("Set Application Colors!");
+
+            Console.WriteLine($"\tCurrent foreground (Text) color: {Console.ForegroundColor}");
+            Console.WriteLine($"\tCurrent background (Console) color: {Console.BackgroundColor}");
+            Console.WriteLine();
+
+            Console.Write("\tWould you like to change the current theme (yes or no)?");
+            if (Console.ReadLine().ToLower() == "yes")
+            {
+                do
+                {
+
+                    //
+                    // List available theme options for user
+                    //
+
+                    Console.WriteLine();
+                    Console.WriteLine("Valid Options: ");
+                    Console.WriteLine();
+                    Console.WriteLine("\tblack");
+                    Console.WriteLine("\twhite");
+                    Console.WriteLine("\tblue or darkblue");
+                    Console.WriteLine("\tcyan or darkcyan");
+                    Console.WriteLine("\tgray or darkgray");
+                    Console.WriteLine("\tgreen or darkgreen");
+                    Console.WriteLine("\tmagenta or darkmagenta");
+                    Console.WriteLine("\tred or darkred");
+                    Console.WriteLine("\tyellow or darkyellow");
+                    Console.WriteLine();
+                    Console.WriteLine();
+
+
+                    themeColors.foregroundColor = GetConsoleColorFromUser("foreground");
+                    themeColors.backgroundColor = GetConsoleColorFromUser("background");
+
+                    //
+                    // set new theme
+                    //
+
+                    Console.ForegroundColor = themeColors.foregroundColor;
+                    Console.BackgroundColor = themeColors.backgroundColor;
+                    Console.Clear();
+                    DisplayScreenHeader("Set Application Colors!");
+
+                    //
+                    // Echo user's choices
+                    //
+
+                    Console.WriteLine($"\tNew foreground (Text) color: {Console.ForegroundColor}");
+                    Console.WriteLine($"\tNew background (Console) color: {Console.BackgroundColor}");
+
+                    //
+                    // Ask user if they want to save this theme
+                    //
+
+                    Console.WriteLine();
+                    Console.Write("\tIs this the theme you would like?");
+
+                    //
+                    // Validate that the file was written correctly
+                    //
+
+                    if (Console.ReadLine().ToLower() == "yes")
+                    {
+                        themeChosen = true;
+                        exceptionMessage = WriteThemeData(themeColors.foregroundColor, themeColors.backgroundColor);
+                        if (exceptionMessage == "Complete")
+                        {
+                            Console.WriteLine("\n\tNew theme written to data file.\n");
+                        }
+                        else
+                        {
+                            Console.WriteLine("\n\tNew theme not written to data file.");
+                            Console.WriteLine($"\t*** {exceptionMessage} ***\n");
+                        }
+                    }
+
+                } while (!themeChosen);
+            }
+            DisplayContinuePrompt();
+        }
+
+        static ConsoleColor GetConsoleColorFromUser(string property)
+        {
+            ConsoleColor consoleColor;
+            bool validConsoleColor;
+
+
+            //
+            // Ask user what theme they would like and verify thats a valid color
+            //
+
+            do
+            {
+                Console.Write($"\tEnter a value for the {property}:");
+                validConsoleColor = Enum.TryParse<ConsoleColor>(Console.ReadLine(), true, out consoleColor);
+
+                if (!validConsoleColor)
+                {
+                    Console.WriteLine("\n\tI'm sorry, that is not a valid option. Please try again\n");
+                }
+                else
+                {
+                    validConsoleColor = true;
+                }
+
+            } while (!validConsoleColor);
+
+            return consoleColor;
+        }
+
+        static (ConsoleColor foregroundColor, ConsoleColor backgroundColor) ReadThemeData(out string exceptionMessage)
+        {
+            string dataPath = @"Data/Theme.txt";
+            string[] themeColors;
+
+            ConsoleColor foregroundColor = ConsoleColor.White;
+            ConsoleColor backgroundColor = ConsoleColor.Black;
+
+            //
+            // Try to read theme data from file, give user error message if failed
+            //
+
+            try
+            {
+                themeColors = File.ReadAllLines(dataPath);
+                if (Enum.TryParse(themeColors[0], true, out foregroundColor) &&
+                    Enum.TryParse(themeColors[1], true, out backgroundColor))
+                {
+                    exceptionMessage = "Complete";
+                }
+                else
+                {
+                    exceptionMessage = "Data file incorrectly formated.";
+                }
+            }
+            catch (DirectoryNotFoundException)
+            {
+                exceptionMessage = "Unable to locate the folder for the data file. Please verify directory exists";
+            }
+            catch (Exception)
+            {
+                exceptionMessage = "Unable to read data file.";
+            }
+
+            return (foregroundColor, backgroundColor);
+        }
+
+        static string WriteThemeData(ConsoleColor foreground, ConsoleColor background)
+        {
+            string dataPath = @"Data/Theme.txt";
+            string exceptionMessage = "";
+
+            //
+            // Verify that program can access and write to file. Give user error message if failed
+            //
+
+            try
+            {
+                File.WriteAllText(dataPath, foreground.ToString() + "\n");
+                File.AppendAllText(dataPath, background.ToString());
+                exceptionMessage = "Complete";
+            }
+            catch (DirectoryNotFoundException)
+            {
+                exceptionMessage = "Unable to locate the folder for the data file. Please verify directory exists";
+            }
+            catch (Exception)
+            {
+                exceptionMessage = "Unable to write to data file.";
+            }
+
+            return exceptionMessage;
+        }
+
+        static void DisplayReadAndSetTheme()
+        {
+            (ConsoleColor foregroundColor, ConsoleColor backgroundColor) themeColors;
+            string exceptionMessage;
+
+            //
+            // read theme from data and set theme
+            //
+            themeColors = ReadThemeData(out exceptionMessage);
+            if (exceptionMessage == "Complete")
+            {
+                Console.ForegroundColor = themeColors.foregroundColor;
+                Console.BackgroundColor = themeColors.backgroundColor;
+                Console.Clear();
+
+                DisplayScreenHeader("\t\t\t      Import Theme from Data File");
+                Console.WriteLine("\n\t\t\t\t         Theme read from data file Successfully.\n");
+            }
+            else
+            {
+                DisplayScreenHeader("\t\t\t      Import Theme from Data File");
+                Console.WriteLine("\n\t\t\t\t     Could not retreive theme data from data file.");
+                Console.WriteLine();
+                Console.WriteLine($"\t\t*** {exceptionMessage} ***\n");
+            }
+            DisplayContinuePrompt();
+        }
+
+        #endregion
     }
 }
